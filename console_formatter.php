@@ -58,9 +58,17 @@ $incomingArray = [
 ];
 
 $tableHeaders = array_keys($incomingArray[array_key_first($incomingArray)]);
-$maxHeaderWidth = -1;
 $columnsWidth = array_map(function ($header) {
     return strlen($header);
 }, $tableHeaders);
+$columnsWidth = array_combine($tableHeaders, $columnsWidth);
 
+function drawRow(array $rowData, ?string $separator = '|')
+{
+    global $columnsWidth;
+    foreach ($rowData as $key => $item) {
+        printf("%-{$columnsWidth[$key]}s", $item, $separator);
+    }
+}
 
+drawRow($incomingArray[array_key_first($incomingArray)]);
