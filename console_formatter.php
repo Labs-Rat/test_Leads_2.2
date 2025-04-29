@@ -59,10 +59,12 @@ $incomingArray = [
 
 const COLUMN_SEPARATOR = '│';
 const ROW_SEPARATOR = '─';
-const CORNER_SEPARATOR = '┼';
+const INTERSECTION_SEPARATOR = '┼';
 
 function drawRow(array $row, array $columns)
 {
+    echo COLUMN_SEPARATOR;
+
     foreach ($columns as $column => $width) {
         isset($row[$column])
             ? printf("%-{$width}s " . COLUMN_SEPARATOR, $row[$column])
@@ -74,8 +76,10 @@ function drawRow(array $row, array $columns)
 
 function drawSeparatorLine(array $columns)
 {
+    echo '├';
+
     foreach ($columns as $width) {
-        echo(str_repeat(ROW_SEPARATOR, $width + 1) . CORNER_SEPARATOR);
+        echo(str_repeat(ROW_SEPARATOR, $width + 1) . INTERSECTION_SEPARATOR);
     }
 
     echo "\n";
@@ -83,6 +87,8 @@ function drawSeparatorLine(array $columns)
 
 function drawHeader(array $columns)
 {
+    echo COLUMN_SEPARATOR;
+
     foreach ($columns as $title => $width) {
         printf("%-{$width}s " . COLUMN_SEPARATOR, $title);
     }
