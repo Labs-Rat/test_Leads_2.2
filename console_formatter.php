@@ -57,9 +57,9 @@ $incomingArray = [
     ],
 ];
 
-const COLUMN_SEPARATOR = '|';
-const ROW_SEPARATOR = '-';
-const CORNER_SEPARATOR = '+';
+const COLUMN_SEPARATOR = '│';
+const ROW_SEPARATOR = '─';
+const CORNER_SEPARATOR = '┼';
 
 function drawRow(array $row, array $columns)
 {
@@ -95,10 +95,10 @@ function drawHeader(array $columns)
 function drawTable(array $dataArray)
 {
     $tableHeaders = array_keys($dataArray[array_key_first($dataArray)]);
-    $columns = array_map(function ($header) {
+    $columnsWidth = array_map(function ($header) {
         return strlen($header);
     }, $tableHeaders);
-    $columns = array_combine($tableHeaders, $columns);
+    $columns = array_combine($tableHeaders, $columnsWidth);
 
     drawHeader($columns);
 
