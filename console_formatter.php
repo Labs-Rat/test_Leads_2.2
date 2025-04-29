@@ -57,46 +57,53 @@ $incomingArray = [
     ],
 ];
 
-function drawRow(array $rowData, array $columnsData, ?string $separator = '|')
+const COLUMN_SEPARATOR = '|';
+const ROW_SEPARATOR = '-';
+const CORNER_SEPARATOR = '+';
+
+function drawRow(array $row, array $columns)
 {
-    foreach ($rowData as $key => $item) {
-        printf("%-{$columnsData[$key]}s {$separator}", $item);
+    foreach ($columns as $column => $width) {
+        isset($row[$column])
+            ? printf("%-{$width}s " . COLUMN_SEPARATOR, $row[$column])
+            : printf("%-{$width}s " . COLUMN_SEPARATOR, ROW_SEPARATOR);
     }
 
     echo "\n";
 }
 
-function drawHeader(array $columnsData, ?string $separator = '|')
+function drawSeparatorLine(array $columns)
 {
-    foreach ($columnsData as $title => $width) {
-        printf("%-{$width}s {$separator}", $title);
+    foreach ($columns as $width) {
+        echo(str_repeat(ROW_SEPARATOR, $width + 1) . CORNER_SEPARATOR);
     }
 
     echo "\n";
 }
 
-function drawSeparatorLine(array $columnsData, ?string $separator = '+')
+function drawHeader(array $columns)
 {
-    foreach ($columnsData as $width) {
-        echo(str_repeat('-', $width+1) . $separator);
+    foreach ($columns as $title => $width) {
+        printf("%-{$width}s " . COLUMN_SEPARATOR, $title);
     }
 
     echo "\n";
+
+    drawSeparatorLine($columns);
 }
 
-function drawTable(array $dataArray, ?string $separator = '|')
+function drawTable(array $dataArray)
 {
     $tableHeaders = array_keys($dataArray[array_key_first($dataArray)]);
-    $columnsData = array_map(function ($header) {
+    $columns = array_map(function ($header) {
         return strlen($header);
     }, $tableHeaders);
-    $columnsData = array_combine($tableHeaders, $columnsData);
+    $columns = array_combine($tableHeaders, $columns);
 
-    drawHeader($columnsData, $separator);
-    drawSeparatorLine($columnsData);
+    drawHeader($columns);
 
     foreach ($dataArray as $row) {
-        drawRow($row, $columnsData, $separator);
+        drawRow($row, $columns);
     }
 }
 
