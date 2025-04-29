@@ -56,3 +56,13 @@ $incomingArray = [
         "external_commission" => "0.0080",
     ],
 ];
+
+$tableHeaders = array_keys($incomingArray[array_key_first($incomingArray)]);
+$maxHeaderWidth = -1;
+
+foreach ($tableHeaders as $header) {
+    $maxHeaderWidth = max(strlen($header), $maxHeaderWidth);
+}
+
+echo $maxHeaderWidth;
+
