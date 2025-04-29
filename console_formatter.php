@@ -57,28 +57,47 @@ $incomingArray = [
     ],
 ];
 
-$tableHeaders = array_keys($incomingArray[array_key_first($incomingArray)]);
-$columnsData = array_map(function ($header) {
-    return strlen($header);
-}, $tableHeaders);
-$columnsData = array_combine($tableHeaders, $columnsData);
-
-function drawRow(array $rowData, ?string $separator = '|')
+function drawRow(array $rowData, array $columnsData, ?string $separator = '|')
 {
-    global $columnsData;
-    
     foreach ($rowData as $key => $item) {
-        printf("%-{$columnsData[$key]}s {$separator} ", $item);
+        printf("%-{$columnsData[$key]}s {$separator}", $item);
     }
+
+    echo "\n";
 }
 
-function drawHeader(?string $separator = '|')
+function drawHeader(array $columnsData, ?string $separator = '|')
 {
-    global $columnsData;
-
     foreach ($columnsData as $title => $width) {
-        printf("%-{$width}s {$separator} ", $title);
+        printf("%-{$width}s {$separator}", $title);
+    }
+
+    echo "\n";
+}
+
+function drawSeparatorLine(array $columnsData, ?string $separator = '+')
+{
+    foreach ($columnsData as $width) {
+        echo(str_repeat('-', $width+1) . $separator);
+    }
+
+    echo "\n";
+}
+
+function drawTable(array $dataArray, ?string $separator = '|')
+{
+    $tableHeaders = array_keys($dataArray[array_key_first($dataArray)]);
+    $columnsData = array_map(function ($header) {
+        return strlen($header);
+    }, $tableHeaders);
+    $columnsData = array_combine($tableHeaders, $columnsData);
+
+    drawHeader($columnsData, $separator);
+    drawSeparatorLine($columnsData);
+
+    foreach ($dataArray as $row) {
+        drawRow($row, $columnsData, $separator);
     }
 }
 
-drawHeader();
+drawTable($incomingArray);
