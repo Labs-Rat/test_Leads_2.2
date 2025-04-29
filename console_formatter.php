@@ -59,10 +59,8 @@ $incomingArray = [
 
 $tableHeaders = array_keys($incomingArray[array_key_first($incomingArray)]);
 $maxHeaderWidth = -1;
+$columnsWidth = array_map(function ($header) {
+    return strlen($header);
+}, $tableHeaders);
 
-foreach ($tableHeaders as $header) {
-    $maxHeaderWidth = max(strlen($header), $maxHeaderWidth);
-}
-
-echo $maxHeaderWidth;
 
